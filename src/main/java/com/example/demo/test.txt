@@ -1,0 +1,10 @@
+  id          VARCHAR2(64) not null,
+  name        VARCHAR2(30),
+  description VARCHAR2(100),
+  content     CLOB,
+  create_by   VARCHAR2(20),
+  create_date DATE,
+  update_by   VARCHAR2(20),
+  update_date DATE,
+  is_active   VARCHAR2(2),
+  script_type VARCHAR2(20 CHAR)

@@ -6,6 +6,8 @@ import com.example.demo.utils.PageUtil;
 import com.example.demo.utils.ResponseUtil;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,9 +50,9 @@ public class ReportScriptController {
     return ResponseUtil.success(getAllActiveReportScript());
   }
 
-  @PostMapping(value = "/findAllWithConditionQuery")
+  @GetMapping(value = "/findAllWithConditionQuery")
   public ResponseEntity findAllWithConditionQuery(@RequestParam int pageSize, @RequestParam int pageIndex) {
-    return ResponseUtil.success(reportScriptRepository.findByIsActive(ACTIVE, PageUtil.getPageRequest(pageIndex, pageSize)));
+    return ResponseUtil.success(reportScriptRepository.findByIsActive(ACTIVE, PageRequest.of(pageIndex - 1, pageSize)));
   }
 
   private List<ReportScript> getAllActiveReportScript() {

@@ -3,9 +3,8 @@ package com.example.demo.controller;
 import com.example.demo.model.ReportScript;
 import com.example.demo.model.searchModel.modelForSearch.BaseQuery;
 import com.example.demo.repository.ReportScriptRepository;
-import java.util.List;
+import com.example.demo.utils.ResponseUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -27,14 +26,12 @@ public class ReportScriptController {
   public ResponseEntity addReportScript(@RequestBody ReportScript reportScript) {
     reportScript.setIsActive("1");
     reportScriptRepository.save(reportScript);
-    Result<Object> result = new Result<>(reportScriptRepository.findByIsActive("1"));
-    result.setCode("SUCCESS");
-    return new ResponseEntity<>(result, HttpStatus.OK);
+    return ResponseUtil.success(reportScriptRepository.findByIsActive("1"));
   }
 
   @GetMapping(value = "/findAll")
-  public List<ReportScript> getAll(){
-    return reportScriptRepository.findByIsActive("1");
+  public ResponseEntity getAll(){
+    return ResponseUtil.success(reportScriptRepository.findByIsActive("1"));
   }
 
   @PostMapping(value = "/uploadFile")
@@ -43,15 +40,13 @@ public class ReportScriptController {
   }
 
   @DeleteMapping(value = "/delete/{id}")
-  public List<ReportScript> deleteById(@PathVariable String id){
+  public ResponseEntity deleteById(@PathVariable String id){
     reportScriptRepository.deleteById(id);
-    return reportScriptRepository.findByIsActive("1");
+    return ResponseUtil.success(reportScriptRepository.findByIsActive("1"));
   }
 
   @PostMapping(value = "/findAllWithConditionQuery")
   public ResponseEntity findAllWithConditionQuery(@RequestBody BaseQuery query) {
-    Result<Object> result = new Result<>(reportScriptRepository.findByIsActive("1", query.getPageable()));
-    result.setCode("SUCCESS");
-    return new ResponseEntity<>(result, HttpStatus.OK);
+    return ResponseUtil.success(reportScriptRepository.findByIsActive("1", query.getPageable()));
   }
 }

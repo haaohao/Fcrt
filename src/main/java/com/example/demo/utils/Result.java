@@ -1,4 +1,4 @@
-package com.example.demo.controller;
+package com.example.demo.utils;
 
 public class Result<T>{
 

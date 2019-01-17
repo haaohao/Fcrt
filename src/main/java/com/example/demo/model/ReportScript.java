@@ -23,7 +23,7 @@ public class ReportScript {
   @Column(name = "content")
   private String content;
   @Column(name = "is_active")
-  private String isActive;
+  private boolean isActive;
   @Column(name = "script_type")
   private String scriptType;
   @Column(name = "create_by")
@@ -67,12 +67,12 @@ public class ReportScript {
     this.content = content;
   }
 
-  public String getIsActive() {
+  public boolean getActive() {
     return isActive;
   }
 
-  public void setIsActive(String isActive) {
-    this.isActive = isActive;
+  public void setActive(boolean active) {
+    isActive = active;
   }
 
   public String getScriptType() {

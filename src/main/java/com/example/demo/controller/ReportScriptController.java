@@ -4,6 +4,7 @@ import com.example.demo.model.ReportScript;
 import com.example.demo.model.searchModel.modelForSearch.BaseQuery;
 import com.example.demo.repository.ReportScriptRepository;
 import com.example.demo.utils.ResponseUtil;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -21,17 +22,18 @@ public class ReportScriptController {
 
   @Autowired
   private ReportScriptRepository reportScriptRepository;
+  private final boolean  ACTIVE = true;
 
   @PostMapping(value = "/save")
   public ResponseEntity addReportScript(@RequestBody ReportScript reportScript) {
-    reportScript.setIsActive("1");
+    reportScript.setActive(true);
     reportScriptRepository.save(reportScript);
-    return ResponseUtil.success(reportScriptRepository.findByIsActive("1"));
+    return ResponseUtil.success(getAllActiveReportScript());
   }
 
   @GetMapping(value = "/findAll")
   public ResponseEntity getAll(){
-    return ResponseUtil.success(reportScriptRepository.findByIsActive("1"));
+    return ResponseUtil.success(getAllActiveReportScript());
   }
 
   @PostMapping(value = "/uploadFile")
@@ -42,11 +44,15 @@ public class ReportScriptController {
   @DeleteMapping(value = "/delete/{id}")
   public ResponseEntity deleteById(@PathVariable String id){
     reportScriptRepository.deleteById(id);
-    return ResponseUtil.success(reportScriptRepository.findByIsActive("1"));
+    return ResponseUtil.success(getAllActiveReportScript());
   }
 
   @PostMapping(value = "/findAllWithConditionQuery")
   public ResponseEntity findAllWithConditionQuery(@RequestBody BaseQuery query) {
-    return ResponseUtil.success(reportScriptRepository.findByIsActive("1", query.getPageable()));
+    return ResponseUtil.success(reportScriptRepository.findByIsActive(ACTIVE, query.getPageable()));
+  }
+
+  private List<ReportScript> getAllActiveReportScript() {
+    return reportScriptRepository.findByIsActive(ACTIVE);
   }
 }

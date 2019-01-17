@@ -1,8 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.model.ReportScript;
-import com.example.demo.model.searchModel.modelForSearch.BaseQuery;
 import com.example.demo.repository.ReportScriptRepository;
+import com.example.demo.utils.PageUtil;
 import com.example.demo.utils.ResponseUtil;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -48,8 +49,8 @@ public class ReportScriptController {
   }
 
   @PostMapping(value = "/findAllWithConditionQuery")
-  public ResponseEntity findAllWithConditionQuery(@RequestBody BaseQuery query) {
-    return ResponseUtil.success(reportScriptRepository.findByIsActive(ACTIVE, query.getPageable()));
+  public ResponseEntity findAllWithConditionQuery(@RequestParam int pageSize, @RequestParam int pageIndex) {
+    return ResponseUtil.success(reportScriptRepository.findByIsActive(ACTIVE, PageUtil.getPageRequest(pageIndex, pageSize)));
   }
 
   private List<ReportScript> getAllActiveReportScript() {
